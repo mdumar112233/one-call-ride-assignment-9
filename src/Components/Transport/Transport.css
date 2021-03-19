@@ -1,0 +1,16 @@
+.col-container{
+    margin: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+.transport-card{
+    width: 200px;
+    height: 170px;
+    padding: 25px;
+    background: #fff;
+    border-radius: 5px;
+}
+.transport-card img{
+    margin-bottom: 30px;
+    width: 40%;
+}

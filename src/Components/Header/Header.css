@@ -1,0 +1,21 @@
+.header-design{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+.header-design h3{
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: 700;
+}
+.header-design ul li{
+    display: inline-block;
+    margin: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.header-design ul li a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
