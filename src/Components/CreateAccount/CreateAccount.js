@@ -13,6 +13,7 @@ const CreateAccount = () => {
        
       return (
     <form onSubmit={handleSubmit(onSubmit)}>
+        <p>hello</p>
       <input name="example" ref={register} />
         <br/> <br/>
       <input name="exampleRequired" ref={register({ required: true })} /> <br/><br/>
