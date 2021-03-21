@@ -1,40 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import firebase from "firebase/app";
 import "firebase/auth";
-import { useForm } from 'react-hook-form';
 import firebaseConfig from './firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
 
 
 const CreateAccount = () => {
-    // const { register, handleSubmit, watch, errors } = useForm();
+  const [newUser, setNewUser] = useState(false);
+  const [user, setUser] = useState({
+    isSignIn: false,
+    name: '',
+    email: '',
+    password: '',
+    error: '',
+    success: false
+  });
 
     const handleChange = e => {
-     console.log(e.target.name, e.target.value); 
-    }
-    const submitHandle = () => {
+      let isFormValid;
+     if(e.target.name === 'email'){
+       isFormValid = /\S+@\S+\.\S+/.test(e.target.value);
+     }
+     if(e.target.name === 'password'){
+       const isPasswordValid = e.target.value.length > 6;
+       const passwordHasNumber = /\d{1}/.test(e.target.value)
+       isFormValid = isPasswordValid && passwordHasNumber;
+     }
+     if(isFormValid){
+      const userInfo = {...user};
+      userInfo[e.target.name] = e.target.value;
+      setUser(userInfo);
+     }
 
+    }
+    const submitHandle = e => {
+      if(newUser && user.email && user.password){
+        firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+        .then(res => {
+          const userInfo = {...user};
+          userInfo.error = '';
+          userInfo.success = true;
+          setUser(userInfo);
+        })
+        .catch(error => {
+          const userInfo = {...user};
+          userInfo.error = error.message;
+          userInfo.success = false;
+          setUser(userInfo);
+        });
+      }
+
+
+
+      if(!newUser && user.email && user.password){
+        firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+          .then(res => {
+            const userInfo = {...user};
+            userInfo.error = '';
+            userInfo.success = true;
+            setUser(userInfo);
+          })
+          .catch((error) => {
+            const userInfo = {...user};
+            userInfo.error = error.message;
+            userInfo.success = false;
+            setUser(userInfo);
+          });
+      }
+      e.preventDefault();
     };
        
       return (
-    // <form onSubmit={submitHandle}>
-    //     <p>hello</p>
-    //     <br/> <br/>
-    //   <input onBlur={handleChange} type='email' name="exampleRequired" ref={register({ required: true })} /> <br/><br/>
-    //   <input onBlur={handleChange} type='password' name="example" ref={register} />
+        <div>
+            <form onSubmit={submitHandle}>
+              {
+                !newUser && <input name='name' onBlur={handleChange} type="text" placeholder='Enter your name'/> 
+              }
+              <br/><br/>
+              <input type="email" name='email' onBlur={handleChange} placeholder='Enter your email' required /><br/><br/>
+              <input type="password" name='password' onBlur={handleChange} placeholder='Enter your password' required /><br/><br/>
+              {/* {
+                user.password && <p>enter right password</p>
+              } */}
 
-    //   {errors.exampleRequired && <span>This field is required</span>}
-    //   <br/>
-    //   <br/>
-    //   <input type="submit"/>
-    // </form>
-    <form onSubmit={submitHandle}>
-      <input type="email" name='email' onBlur={handleChange} placeholder='enter your email' required /><br/><br/>
-      <input type="password" name='password' onBlur={handleChange} placeholder='enter your email' required /><br/><br/>
-      <input type="submit" value='submit' />
-    </form>
-      
+              <input type="submit" value='submit' />
+          </form>
+          <p>Already  have an account? <a onClick={() => setNewUser(!newUser)} href="">Login</a></p>
+          <p style={{color: 'red'}}>{user.error}</p>
+          {
+            user.success && <p style={{color: 'green'}}>User {newUser ? 'created' : 'Logged In'} successfully</p>
+          }
+        </div>
     )
 };
 
