@@ -42,6 +42,8 @@ const CreateAccount = () => {
           userInfo.error = '';
           userInfo.success = true;
           setUser(userInfo);
+          userNameUpdate(user.name);
+          console.log(res.user);
         })
         .catch(error => {
           const userInfo = {...user};
@@ -70,23 +72,37 @@ const CreateAccount = () => {
       }
       e.preventDefault();
     };
+    
+    const userNameUpdate = name => {
+      const user = firebase.auth().currentUser;
+
+        user.updateProfile({
+          displayName: name
+        }).then(() => {
+
+        }).catch(error => {
+          const userInfo = {...user};
+          userInfo.error = error.message;
+          userInfo.success = false;
+          setUser(userInfo);
+        });
+
+    }
        
       return (
         <div>
             <form onSubmit={submitHandle}>
               {
-                !newUser && <input name='name' onBlur={handleChange} type="text" placeholder='Enter your name'/> 
+                newUser && <input name='name' onBlur={handleChange} type="text" placeholder='Enter your name' required /> 
               }
               <br/><br/>
               <input type="email" name='email' onBlur={handleChange} placeholder='Enter your email' required /><br/><br/>
               <input type="password" name='password' onBlur={handleChange} placeholder='Enter your password' required /><br/><br/>
-              {/* {
-                user.password && <p>enter right password</p>
-              } */}
 
-              <input type="submit" value='submit' />
+              <input type="submit" value={newUser ? 'Sign up' : 'Sign in'} />
           </form>
-          <p>Already  have an account? <a onClick={() => setNewUser(!newUser)} href="">Login</a></p>
+          <p>Already  have an account?</p><input type="checkbox" onChange={() => setNewUser(!newUser)} name='newUser' />
+          <label htmlFor="newUser">new user sign up</label>
           <p style={{color: 'red'}}>{user.error}</p>
           {
             user.success && <p style={{color: 'green'}}>User {newUser ? 'created' : 'Logged In'} successfully</p>
