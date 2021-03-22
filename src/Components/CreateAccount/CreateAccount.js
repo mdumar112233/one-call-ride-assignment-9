@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebaseConfig';
+import { useContext } from 'react';
+import { UserContext } from '../../App';
+import { useHistory, useLocation } from 'react-router';
+import './CreateAccount.css';
+import { Link } from 'react-router-dom';
 
 firebase.initializeApp(firebaseConfig);
 
 
 const CreateAccount = () => {
-  const [newUser, setNewUser] = useState(false);
+  const [newUser, setNewUser] = useState(true);
   const [user, setUser] = useState({
     isSignIn: false,
     name: '',
@@ -16,6 +21,37 @@ const CreateAccount = () => {
     error: '',
     success: false
   });
+
+    const[loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const history = useHistory();
+    const location = useLocation();
+
+    const { from } = location.state || { from: { pathname: "/" } };
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    const handleSignIn = () => {
+      firebase.auth().signInWithPopup(provider)
+      .then(res  => {
+        const {email, displayName}  = res.user;
+        const signInUser = {
+          isSignIn: true,
+          name: displayName,
+          email: email
+        }
+        setLoggedInUser(signInUser);
+        history.replace(from);
+        setUser(signInUser);
+      }).catch((error) => {
+    
+        const userInfo = {...user};
+        userInfo.error = error.message;
+        userInfo.error = error.email;
+        userInfo.success = false;
+        setUser(userInfo);
+      });
+    }
+
 
     const handleChange = e => {
       let isFormValid;
@@ -35,14 +71,14 @@ const CreateAccount = () => {
 
     }
     const submitHandle = e => {
-      if(newUser && user.email && user.password){
+      if(!newUser && user.email && user.password){
         firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
         .then(res => {
           const userInfo = {...user};
           userInfo.error = '';
           userInfo.success = true;
           setUser(userInfo);
-          userNameUpdate(user.name);
+          userNameUpdate(res.user.name);
           console.log(res.user);
         })
         .catch(error => {
@@ -55,13 +91,16 @@ const CreateAccount = () => {
 
 
 
-      if(!newUser && user.email && user.password){
+      if(newUser && user.email && user.password){
         firebase.auth().signInWithEmailAndPassword(user.email, user.password)
           .then(res => {
             const userInfo = {...user};
             userInfo.error = '';
             userInfo.success = true;
             setUser(userInfo);
+            setLoggedInUser(userInfo);
+            history.replace(from);
+            console.log(res.user);
           })
           .catch((error) => {
             const userInfo = {...user};
@@ -78,8 +117,8 @@ const CreateAccount = () => {
 
         user.updateProfile({
           displayName: name
-        }).then(() => {
-
+        }).then(res  => {
+          
         }).catch(error => {
           const userInfo = {...user};
           userInfo.error = error.message;
@@ -91,22 +130,32 @@ const CreateAccount = () => {
        
       return (
         <div>
-            <form onSubmit={submitHandle}>
+          <div className="sub-container">
+          <form onSubmit={submitHandle}>
               {
-                newUser && <input name='name' onBlur={handleChange} type="text" placeholder='Enter your name' required /> 
+                newUser &&  <input name='name' onBlur={handleChange} type="text" placeholder='Enter your name'/>
               }
               <br/><br/>
               <input type="email" name='email' onBlur={handleChange} placeholder='Enter your email' required /><br/><br/>
               <input type="password" name='password' onBlur={handleChange} placeholder='Enter your password' required /><br/><br/>
+              <p style={{color: 'red'}}>{user.error}</p>
 
-              <input type="submit" value={newUser ? 'Sign up' : 'Sign in'} />
+              <input type="submit" onClick={() => setNewUser(!newUser)} value={newUser ? 'Create an account' : 'log in'} />
           </form>
-          <p>Already  have an account?</p><input type="checkbox" onChange={() => setNewUser(!newUser)} name='newUser' />
+          <p>Already  have an account?</p>
+          {/* <input className='login-btn' type="button" value='login' onClick={() => setNewUser(!newUser)}  /> */}
+          <Link><a onClick={() => setNewUser(!newUser)}  href="">{!newUser ? 'Create an account': 'log in'}</a></Link>
           <label htmlFor="newUser">new user sign up</label>
-          <p style={{color: 'red'}}>{user.error}</p>
+          <a href="">hello</a>
           {
-            user.success && <p style={{color: 'green'}}>User {newUser ? 'created' : 'Logged In'} successfully</p>
+            user.success && <p style={{color: 'green'}}>User {!newUser ? 'created' : 'Logged In'} successfully</p>
           }
+
+          {
+            !user.isSignIn && <button onClick={handleSignIn}>Create an account with google</button>
+          }
+          </div>
+
         </div>
     )
 };

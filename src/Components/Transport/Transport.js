@@ -5,7 +5,8 @@ const Transport = (props) => {
     const {name, image} = props.transport;
     const history = useHistory();
     const handleRides = () => {
-        history.push('/search');
+        const url = `/search/${name}`;
+        history.push(url);
     } 
     return (
         <div>

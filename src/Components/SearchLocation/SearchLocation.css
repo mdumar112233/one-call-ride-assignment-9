@@ -1,0 +1,14 @@
+.search{
+    padding: 1.5rem;
+    width: 260px;
+    height: auto;
+    background-color: rgba(128, 128, 128, 0.418);
+    border-radius: 4px;
+}
+.search-btn{
+    color: #fff;
+    background: #e74c3c;
+    padding: 8px 5rem;
+    border: 0;
+    border-radius: 2px;
+}

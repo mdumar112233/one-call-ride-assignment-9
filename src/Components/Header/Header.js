@@ -13,9 +13,9 @@ const Header = () => {
                     <li>
                         <a href=""><Link to='/home'>Home</Link></a>
                     </li>
-                    <li><a href="">Destination</a></li>
-                    <li><a href="">Blog</a></li>
-                    <li><a href="">Contact</a></li>
+                    <li><a href=""><Link>Destination</Link></a></li>
+                    <li><a href=""><Link>Blog</Link></a></li>
+                    <li><a href=""><Link>Contact</Link></a></li>
                     <li>
                         <a href=""><Link to='/login'>Login</Link></a>
                     </li>
