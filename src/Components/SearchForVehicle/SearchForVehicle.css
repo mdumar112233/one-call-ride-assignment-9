@@ -1,0 +1,17 @@
+.vehicle-info{
+    width: 220px;
+    height: auto;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-left: -13px;
+    border-radius: 5px;
+}
+.vehicle-info img{
+    width: 60%;
+}
+.detail{
+    margin: 0 10px;
+}

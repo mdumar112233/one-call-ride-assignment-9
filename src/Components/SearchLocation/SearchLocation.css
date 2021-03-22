@@ -1,6 +1,6 @@
 .search{
-    padding: 1.5rem;
-    width: 260px;
+    padding: 2rem;
+    width: 300px;
     height: auto;
     background-color: rgba(128, 128, 128, 0.418);
     border-radius: 4px;
@@ -11,4 +11,14 @@
     padding: 8px 5rem;
     border: 0;
     border-radius: 2px;
+}
+.location-title{
+    width: 220px;
+    height: auto;
+    background-color: #e74c3c;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }

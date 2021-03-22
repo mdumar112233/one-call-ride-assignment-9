@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import './SearchLocation.css';
 import map from '../../images/Map.png';
-import { useParams } from 'react-router';
 import FakeData from '../../FakeData/FakeData';
-import { Link } from 'react-router-dom';
+import SearchForVehicle from '../SearchForVehicle/SearchForVehicle';
+import { useParams } from 'react-router';
 
 const SearchLocation = () => {
     const {vehicle} = useParams();
     const fakeData = FakeData;
-    const [location, setLocation] = useState({});
-
-    let filterName = [];
-    fakeData.filter(searchVehicle => {
-        const {name, price, capacity, image} = searchVehicle;
-        const allInfo = {name, price, capacity, image}; 
-        if(vehicle === name){
-            filterName.push(allInfo);
-        }
+    const [transport, setTransport] = useState([]);
+    const newTransport = transport.slice(0,4);
+    const [location, setLocation] = useState({
+        pickFrom: '',
+        pickTo: ''
     });
+    // const {pickFrom, pickTo} = location;
+    // const newLocatoin = {pickFrom, pickTo};
+    // console.log(newLocatoin);
+    console.log(location.pickFrom);
+    console.log(location.pickTo);
+
+
+    useEffect(() => {
+        setTransport(fakeData);
+    },[])
+
 
 
     const handleLocation = e => {
@@ -25,20 +32,30 @@ const SearchLocation = () => {
             const userLocation = {...location};
             userLocation[e.target.name] = pickPoint;
             setLocation(userLocation);
+            console.log(userLocation);
     }
+    const [changeLocation, setChangeLocation] = useState(false);
 
     return (
         <div className='container'>
             <div className="row ride-location">
                 <div className="col-md-4 search-section">
                     <div className="search">
-                        <label htmlFor="pick-from">Pick From</label><br/>
-                        <input onBlur={handleLocation} type="text" name="pick-from" required/><br/><br/>
-                        <label htmlFor="pick-to">Pick To</label><br/>
-                        <input onBlur={handleLocation} type="text" name='pick-to' required/><br/><br/>
-                        <Link to='/vehicle'>
-                            <button className='search-btn'>search</button>
-                        </Link>
+                        { !changeLocation ? <div><label htmlFor="pickFrom">Pick From</label><br/>
+                        <input onBlur={handleLocation} type="text" name="pickFrom" /><br/><br/>
+                        <label htmlFor="pickTo">Pick To</label><br/>
+                        <input onBlur={handleLocation} type="text" name='picTo' /><br/><br/>
+                        <button onClick= {() => setChangeLocation(!changeLocation)} className='search-btn'>search</button>
+                        </div> : <div>
+                        <div className="location-title">
+                            <p>{location.pickFrom}</p>
+                            <p>{location.pickTo}</p>
+                        </div>
+                            {
+                                newTransport.map(transport => <SearchForVehicle transport={transport} vehicle={vehicle}></SearchForVehicle>)
+                            }
+                        </div>
+                        }
                     </div>
                 </div>
                 <div className="col-md-8 google-map">
