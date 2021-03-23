@@ -32,9 +32,9 @@ const SearchLocation = () => {
                 <div className="col-md-4 search-section">
                     <div className="search">
                         { !changeLocation ? <div className='search-input'><label htmlFor="pickFrom">Pick From</label><br/>
-                        <input onBlur={handleLocation} type="text" name="pickFrom" /><br/><br/>
+                        <input className='location-input' onBlur={handleLocation} type="text" name="pickFrom" /><br/><br/>
                         <label htmlFor="pickTo">Pick To</label><br/>
-                        <input onBlur={handleLocation} type="text" name='pickTo' /><br/><br/>
+                        <input className='location-input' onBlur={handleLocation} type="text" name='pickTo' /><br/><br/>
                         <button onClick= {() => setChangeLocation(!changeLocation)} className='search-btn'>search</button>
                         </div> : <div>
                         <div className="location-title">
