@@ -16,9 +16,12 @@
     width: 220px;
     height: auto;
     background-color: #e74c3c;
-    text-align: center;
+    text-align: left;
     padding: 10px;
     color: #fff;
     margin-bottom: 10px;
     border-radius: 5px;
+}
+.search-input{
+    margin-left: 12px;
 }

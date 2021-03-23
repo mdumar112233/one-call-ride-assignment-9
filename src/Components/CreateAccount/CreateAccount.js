@@ -131,31 +131,36 @@ const CreateAccount = () => {
       return (
         <div>
           <div className="sub-container">
+            <div className="create-account">
+            <h4>{newUser ? 'Create account': 'log in' }</h4><br/>
           <form onSubmit={submitHandle}>
               {
-                newUser &&  <input name='name' onBlur={handleChange} type="text" placeholder='Enter your name'/>
+                newUser &&  <input name='name' onBlur={handleChange} type="text" placeholder='Enter your name' required/>
               }
               <br/><br/>
               <input type="email" name='email' onBlur={handleChange} placeholder='Enter your email' required /><br/><br/>
-              <input type="password" name='password' onBlur={handleChange} placeholder='Enter your password' required /><br/><br/>
+              <input type="password" name='password' onBlur={handleChange} placeholder='Enter your password' required /><br/>
               <p style={{color: 'red'}}>{user.error}</p>
 
-              <input type="submit" onClick={() => setNewUser(!newUser)} value={newUser ? 'Create an account' : 'log in'} />
+              <input className='create-log-btn' type="submit" onClick={() => setNewUser(!newUser)} value={newUser ? 'Create an account' : 'log in'} />
           </form>
-          <p>Already  have an account?</p>
-          {/* <input className='login-btn' type="button" value='login' onClick={() => setNewUser(!newUser)}  /> */}
-          <Link><a onClick={() => setNewUser(!newUser)}  href="">{!newUser ? 'Create an account': 'log in'}</a></Link>
-          <label htmlFor="newUser">new user sign up</label>
-          <a href="">hello</a>
+          <br/>
+              <div className='account-btn'>
+                <div><p>Already  have an account?</p></div>
+                  <Link><a  onClick={() => setNewUser(!newUser)}  href="">{!newUser ? 'Create an account': 'log in'}</a></Link>
+              </div>
+          
           {
             user.success && <p style={{color: 'green'}}>User {!newUser ? 'created' : 'Logged In'} successfully</p>
           }
-
+            <br/>
           {
-            !user.isSignIn && <button onClick={handleSignIn}>Create an account with google</button>
+            !user.isSignIn && <button className='google-btn' onClick={handleSignIn}>Create an account with google</button>
           }
-          </div>
 
+
+               </div>
+            </div>
         </div>
     )
 };

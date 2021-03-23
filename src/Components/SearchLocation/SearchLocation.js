@@ -8,18 +8,10 @@ import { useParams } from 'react-router';
 const SearchLocation = () => {
     const {vehicle} = useParams();
     const fakeData = FakeData;
+    const [changeLocation, setChangeLocation] = useState(false);
     const [transport, setTransport] = useState([]);
     const newTransport = transport.slice(0,4);
-    const [location, setLocation] = useState({
-        pickFrom: '',
-        pickTo: ''
-    });
-    // const {pickFrom, pickTo} = location;
-    // const newLocatoin = {pickFrom, pickTo};
-    // console.log(newLocatoin);
-    console.log(location.pickFrom);
-    console.log(location.pickTo);
-
+    const [location, setLocation] = useState({});
 
     useEffect(() => {
         setTransport(fakeData);
@@ -32,19 +24,17 @@ const SearchLocation = () => {
             const userLocation = {...location};
             userLocation[e.target.name] = pickPoint;
             setLocation(userLocation);
-            console.log(userLocation);
     }
-    const [changeLocation, setChangeLocation] = useState(false);
-
+                                            
     return (
         <div className='container'>
             <div className="row ride-location">
                 <div className="col-md-4 search-section">
                     <div className="search">
-                        { !changeLocation ? <div><label htmlFor="pickFrom">Pick From</label><br/>
+                        { !changeLocation ? <div className='search-input'><label htmlFor="pickFrom">Pick From</label><br/>
                         <input onBlur={handleLocation} type="text" name="pickFrom" /><br/><br/>
                         <label htmlFor="pickTo">Pick To</label><br/>
-                        <input onBlur={handleLocation} type="text" name='picTo' /><br/><br/>
+                        <input onBlur={handleLocation} type="text" name='pickTo' /><br/><br/>
                         <button onClick= {() => setChangeLocation(!changeLocation)} className='search-btn'>search</button>
                         </div> : <div>
                         <div className="location-title">
@@ -59,7 +49,7 @@ const SearchLocation = () => {
                     </div>
                 </div>
                 <div className="col-md-8 google-map">
-                    <img src={map} alt=""/>
+                <img src={map} alt=""/>  
                 </div>
             </div>
         </div>

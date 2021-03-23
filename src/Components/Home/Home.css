@@ -13,6 +13,4 @@
     margin-top: 15rem;
     display: flex;
     justify-content: space-around;
-    /* display: grid;
-    grid-template-columns: repeat(4, 1fr); */
 }

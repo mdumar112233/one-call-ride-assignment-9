@@ -18,10 +18,8 @@ export const UserContext = createContext();
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
-  console.log(loggedInUser);
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
-      <h3>email: {loggedInUser.email}</h3>
       <Router>
         <Header></Header>
         <Switch>
@@ -34,9 +32,9 @@ function App() {
         <Route path='/login'>
           <CreateAccount></CreateAccount>
         </Route>
-        <Route path='/search/:vehicle'>
+        <PrivateRoute path='/search/:vehicle'>
           <SearchLocation></SearchLocation>
-        </Route>
+        </PrivateRoute>
         <Route path='/vehicle'>
           <SearchForVehicle></SearchForVehicle>
         </Route>
