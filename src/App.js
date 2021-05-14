@@ -12,6 +12,7 @@ import CreateAccount from './Components/CreateAccount/CreateAccount';
 import { createContext, useState } from 'react';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 import SearchForVehicle from './Components/SearchForVehicle/SearchForVehicle';
+import Login from './Components/CreateAccount/Login';
 
 export const UserContext = createContext();
 
@@ -30,6 +31,9 @@ function App() {
           <Home></Home>
         </Route>
         <Route path='/login'>
+          <Login/>
+        </Route>
+        <Route path='/createAccount'>
           <CreateAccount></CreateAccount>
         </Route>
         <PrivateRoute path='/search/:vehicle'>

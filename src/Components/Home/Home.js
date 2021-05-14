@@ -14,7 +14,7 @@ const Home = () => {
 
     return (
         <div className='home-design'>
-            <div className="container main-content">
+            <div className="container row">
                 {
                     transports.map(transport => <Transport transport={transport}></Transport>)
                 }

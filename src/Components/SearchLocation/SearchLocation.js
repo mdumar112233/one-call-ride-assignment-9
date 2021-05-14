@@ -38,8 +38,8 @@ const SearchLocation = () => {
                         <button onClick= {() => setChangeLocation(!changeLocation)} className='search-btn'>search</button>
                         </div> : <div>
                         <div className="location-title">
-                            <p>{location.pickFrom}</p>
-                            <p>{location.pickTo}</p>
+                            <p>From - {location.pickFrom}</p>
+                            <p>To - {location.pickTo}</p>
                         </div>
                             {
                                 newTransport.map(transport => <SearchForVehicle transport={transport} vehicle={vehicle}></SearchForVehicle>)

@@ -4,13 +4,8 @@
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 100vh;
+    height: 624px;
     top: 0;
     position: absolute;
     z-index: -2;
-}
-.main-content{
-    margin-top: 15rem;
-    display: flex;
-    justify-content: space-around;
 }

@@ -9,16 +9,14 @@ const Transport = (props) => {
         history.push(url);
     } 
     return (
-        <div>
-            <div className='row'>
-                <div className="col-4 col-container">
+            <div className='col-md-3'>
+                <div className="col-container">
                     <div onClick={() => handleRides()} className="transport-card">
                         <img src={image} alt=""/>
                         <h4>{name}</h4>
                     </div>
                 </div>
             </div>
-        </div>
     );
 };
 
